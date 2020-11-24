@@ -5,7 +5,6 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
 
 import io.quarkus.vertx.web.Body;
@@ -47,4 +46,8 @@ public class CharacterResource {
         return Uni.createFrom().item(created);
     }
 
+    @Route(path = "/stream", methods = HttpMethod.GET)
+    public Multi<RpgCharacter> getCreatedCharsFeed() {
+        return ReactiveRoutes.asEventStream(Multi.createFrom().publisher(toons));
+    }
 }
